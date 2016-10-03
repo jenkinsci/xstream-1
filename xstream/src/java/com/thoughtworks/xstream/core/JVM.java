@@ -47,6 +47,7 @@ public class JVM implements Caching {
     private static final boolean canCreateDerivedObjectOutputStream;
 
     private static final String vendor = System.getProperty("java.vm.vendor");
+    private static final String runtime = System.getProperty("java.runtime.name", "unknown");
     private static final float majorJavaVersion = getMajorJavaVersion();
     private static final float DEFAULT_JAVA_VERSION = 1.4f;
     private static final boolean reverseFieldOrder = false;
@@ -203,6 +204,14 @@ public class JVM implements Caching {
      */
     public static boolean is16() {
         return majorJavaVersion >= 1.6f;
+    }
+
+    private static boolean isIcedTea() {
+        return runtime.indexOf("IcedTea") != -1;
+    }
+
+    private static boolean isOpenJDK() {
+        return runtime.indexOf("OpenJDK") != -1;
     }
 
     /**

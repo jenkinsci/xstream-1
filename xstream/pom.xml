@@ -20,6 +20,9 @@
   <packaging>jar</packaging>
   <name>XStream Core</name>
 
+  <groupId>org.jvnet.hudson</groupId>
+  <version>1.4.7-jenkins-1</version>
+
   <dependencies>
     <dependency>
       <groupId>dom4j</groupId>
@@ -112,11 +115,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>jmock</groupId>
       <artifactId>jmock</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -137,7 +142,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  
   <build>
     <pluginManagement>
       <plugins>
@@ -155,6 +160,25 @@
         </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <compilerArgument>-XDiagnose.symbol.file</compilerArgument>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -213,6 +237,13 @@
       </plugin>
     </plugins>
   </build>
+  
+  <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/releases/</url>
+    </repository>
+  </distributionManagement>
 
   <profiles>
     <profile>

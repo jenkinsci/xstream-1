@@ -14,6 +14,7 @@ package com.thoughtworks.xstream.mapper;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.thoughtworks.xstream.XStreamException;
 import com.thoughtworks.xstream.core.Caching;
@@ -61,7 +62,7 @@ public class CachingMapper extends MapperWrapper implements Caching {
     }
 
     private Object readResolve() {
-        realClassCache = Collections.synchronizedMap(new HashMap(128));
+        realClassCache = new ConcurrentHashMap();
         return this;
     }
 }

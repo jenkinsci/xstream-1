@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -45,7 +46,7 @@ public class SerializationMethodInvoker implements Caching {
         new FastField(Object.class, "readObject"), 
         new FastField(Object.class, "writeObject")
     };
-    private Map cache = Collections.synchronizedMap(new HashMap());
+    private Map cache = new ConcurrentHashMap();
     {
         for(int i = 0; i < OBJECT_TYPE_FIELDS.length; ++i) {
             cache.put(OBJECT_TYPE_FIELDS[i], NO_METHOD);

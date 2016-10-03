@@ -218,7 +218,7 @@ import com.thoughtworks.xstream.security.WildcardTypePermission;
  * no other registered converter is suitable, can be registered with priority
  * XStream.PRIORITY_VERY_LOW. XStream uses by default the
  * {@link com.thoughtworks.xstream.converters.reflection.ReflectionConverter} as the fallback
- * converter.
+ * converter (override createDefaultConverter() to change this).
  * </p>
  * 
  * <p>
@@ -773,9 +773,13 @@ public class XStream {
         addDefaultImplementation(GregorianCalendar.class, Calendar.class);
     }
 
+    protected Converter createDefaultConverter() {
+        return new ReflectionConverter(mapper, reflectionProvider);
+    }
+
     protected void setupConverters() {
-        registerConverter(
-            new ReflectionConverter(mapper, reflectionProvider), PRIORITY_VERY_LOW);
+        final Converter defaultConverter = createDefaultConverter();
+        registerConverter(defaultConverter, PRIORITY_VERY_LOW);
 
         registerConverter(
             new SerializableConverter(mapper, reflectionProvider, classLoaderReference), PRIORITY_LOW);
@@ -1484,6 +1488,18 @@ public class XStream {
 
     public ConverterLookup getConverterLookup() {
         return converterLookup;
+    }
+
+    public ConverterRegistry getConverterRegistry() {
+        return converterRegistry;
+    }
+
+    /**
+     * @deprecated
+     *      Kohsuke: upstream no longer provides this method, and all methods are now static.
+     */
+    public JVM getJvm() {
+        return new JVM();
     }
 
     /**
