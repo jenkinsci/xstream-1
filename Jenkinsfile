@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -U -e clean install'
+                sh 'mvn -B -U -e clean install -Djava.awt.headless=false'
             }
         }
     }
