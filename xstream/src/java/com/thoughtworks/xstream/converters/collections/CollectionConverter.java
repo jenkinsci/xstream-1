@@ -68,7 +68,8 @@ public class CollectionConverter extends AbstractCollectionConverter {
     }
 
     public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
-        Collection collection = (Collection) source;
+        // Create defensive copy so concurrent modifications does not affect our ability to iterate
+        Collection collection = new ArrayList((Collection) source);
         for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
             Object item = iterator.next();
             writeItem(item, context, writer);
